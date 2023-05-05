@@ -49,11 +49,7 @@ class NewTransaction extends StatelessWidget {
               //
             ),
             TextButton(
-              onPressed: () {
-                submitData;
-                // print(titleInput);
-                // print(amountInput);
-              },
+              onPressed: submitData,
               child: Text(
                 'Add Transaction',
               ),
