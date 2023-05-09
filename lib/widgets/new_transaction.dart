@@ -4,7 +4,7 @@ class NewTransaction extends StatefulWidget {
   //const NewTransaction({Key key}) : super(key: key);
   final Function addTx;
 
-  NewTransaction(this.addTx);
+  const NewTransaction(this.addTx, {Key key}) : super(key: key);
 
   @override
   State<NewTransaction> createState() => _NewTransactionState();

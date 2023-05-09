@@ -1,4 +1,4 @@
-import 'package:expenses_counter/models/transaction.dart';
+import '../models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -41,8 +41,8 @@ class TransactionList extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(
                           vertical: 10,
                           horizontal: 15,
                         ),
