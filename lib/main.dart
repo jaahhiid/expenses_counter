@@ -69,12 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txtitle, double txamount) {
+  void _addNewTransaction(
+      String txtitle, double txamount, DateTime chosenDate) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: txtitle,
       amount: txamount,
-      date: DateTime.now(),
+      date: chosenDate,
     );
     setState(() {
       _userTransactions.add(newTx);
@@ -88,6 +89,14 @@ class _MyHomePageState extends State<MyHomePage> {
         return NewTransaction(_addNewTransaction);
       },
     );
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) {
+        return tx.id == id;
+      });
+    });
   }
 
   // final titleControler = TextEditingController();
@@ -121,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // // Card(
             // //   child: Text('List of TX'),
             // // )
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
             // UserTransactions(),
           ],
         ),
