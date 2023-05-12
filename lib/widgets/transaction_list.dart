@@ -1,6 +1,7 @@
 import '../models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import './transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -42,57 +43,8 @@ class TransactionList extends StatelessWidget {
             )
           : ListView.builder(
               itemBuilder: ((ctx, index) {
-                return Card(
-                  elevation: 5,
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 5,
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 35.0,
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: FittedBox(
-                          child: Text('Tk ${transactions[index].amount}'),
-                        ),
-                      ),
-                    ),
-                    title: Text(
-                      transactions[index].title,
-                      style: const TextStyle(
-                        fontFamily: 'Quicksand',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(
-                        transactions[index].date,
-                      ),
-                    ),
-                    trailing: MediaQuery.of(context).size.width > 500
-                        ? ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.red,
-                            ),
-                            onPressed: () => deleteTx(transactions[index].id),
-                            icon: Icon(Icons.delete),
-                            label: Text(
-                              'Delete',
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
-                            ),
-                          )
-                        : IconButton(
-                            icon: const Icon(Icons.delete),
-                            color: Colors.red,
-                            onPressed: () => deleteTx(transactions[index].id),
-                          ),
-                  ),
-                );
+                return TransactionItem(
+                    transaction: transactions[index], deleteTx: deleteTx);
                 // return Card(
                 //   child: Row(
                 //     children: [
