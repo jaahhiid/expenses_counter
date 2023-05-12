@@ -54,67 +54,74 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        //   margin: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Title'),
-              onChanged: (value) {
-                titleInput = value;
-              },
-              onSubmitted: (_) => _submitData(),
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Amount'),
-              onChanged: (value) {
-                amountInput = value;
-              },
-              keyboardType: TextInputType.number,
-              onSubmitted: ((_) => _submitData()),
-              //
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _selectedDate == null
-                          ? 'No Date Chosen!'
-                          : 'Picked Date ${DateFormat.yMd().format(_selectedDate)}',
-                      style: const TextStyle(
-                        color: Colors.red,
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          //   margin: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+                onChanged: (value) {
+                  titleInput = value;
+                },
+                onSubmitted: (_) => _submitData(),
+              ),
+              TextField(
+                decoration: const InputDecoration(labelText: 'Amount'),
+                onChanged: (value) {
+                  amountInput = value;
+                },
+                keyboardType: TextInputType.number,
+                onSubmitted: ((_) => _submitData()),
+                //
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _selectedDate == null
+                            ? 'No Date Chosen!'
+                            : 'Picked Date ${DateFormat.yMd().format(_selectedDate)}',
+                        style: const TextStyle(
+                          color: Colors.red,
+                        ),
                       ),
                     ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.green,
-                    ),
-                    onPressed: _presentDatePicker,
-                    child: const Text(
-                      'Chose Date',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.green,
+                      ),
+                      onPressed: _presentDatePicker,
+                      child: const Text(
+                        'Chose Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: _submitData,
-              child: const Text(
-                'Add Transaction',
+              ElevatedButton(
+                onPressed: _submitData,
+                child: const Text(
+                  'Add Transaction',
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

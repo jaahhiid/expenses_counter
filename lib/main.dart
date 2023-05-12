@@ -7,7 +7,19 @@ import './models/transaction.dart';
 // import './widgets/transaction_list.dart';
 // import './widgets/new_transaction.dart';
 
-void main() => runApp(MyApp());
+// void main() {
+//   // Landscape Not Allowed
+//   // WidgetsFlutterBinding.ensureInitialized();
+//   // SystemChrome.setPreferredOrientations([
+//   //   DeviceOrientation.portraitUp,
+//   //   DeviceOrientation.portraitDown,
+//   // ]);
+//   runApp(MyApp());
+// }
+
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   //const MyApp({super.key});
@@ -59,6 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
   ];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
@@ -102,35 +116,85 @@ class _MyHomePageState extends State<MyHomePage> {
   // final titleControler = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final appBar = AppBar(
+      title: Text('Personal Expanses'),
+      actions: [
+        IconButton(
+          onPressed: () => _startAddNewTransaction(context),
+          icon: Icon(Icons.add),
+        ),
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Personal Expanses'),
-        actions: [
-          IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: Icon(Icons.add),
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           //  mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(_recentTransactions),
-            // Card(
-            //   color: Colors.green,
-            //   child: Container(
-            //     width: double.infinity,
-            //     height: 50,
-            //     child: Text('CHART!'),
-            //   ),
-            //   elevation: 5,
-            // ),
-            // // Card(
-            // //   child: Text('List of TX'),
-            // // )
-            TransactionList(_userTransactions, _deleteTransaction),
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show Chart'),
+                  Switch(
+                    value: _showChart,
+                    onChanged: ((val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    }),
+                  ),
+                ],
+              ),
+            if (!isLandscape)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.3,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.7,
+                child: TransactionList(_userTransactions, _deleteTransaction),
+              ),
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.7,
+                      child: Chart(_recentTransactions),
+                    )
+                  :
+                  // Card(
+                  //   color: Colors.green,
+                  //   child: Container(
+                  //     width: double.infinity,
+                  //     height: 50,
+                  //     child: Text('CHART!'),
+                  //   ),
+                  //   elevation: 5,
+                  // ),
+                  // // Card(
+                  // //   child: Text('List of TX'),
+                  // // )
+                  Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.7,
+                      child: TransactionList(
+                          _userTransactions, _deleteTransaction),
+                    ),
             // UserTransactions(),
           ],
         ),
