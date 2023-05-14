@@ -18,7 +18,7 @@ class TransactionList extends StatelessWidget {
               builder: (ctx, constraints) {
                 return Column(
                   children: [
-                    Text(
+                    const Text(
                       'No transaction added yet',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -41,69 +41,16 @@ class TransactionList extends StatelessWidget {
                 );
               },
             )
-          : ListView.builder(
-              itemBuilder: ((ctx, index) {
-                return TransactionItem(
-                    transaction: transactions[index], deleteTx: deleteTx);
-                // return Card(
-                //   child: Row(
-                //     children: [
-                //       Container(
-                //         padding: const EdgeInsets.all(10),
-                //         margin: const EdgeInsets.symmetric(
-                //           vertical: 10,
-                //           horizontal: 15,
-                //         ),
-                //         decoration: BoxDecoration(
-                //             border: Border.all(
-                //           color: Theme.of(context).primaryColor,
-                //           width: 2,
-                //         )),
-                //         child: Text(
-                //           'Taka ${transactions[index].amount.toStringAsFixed(2)}',
-                //           style: TextStyle(
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 20,
-                //             color: Theme.of(context).primaryColor,
-                //           ),
-                //         ),
-                //       ),
-                //       Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           Text(
-                //             transactions[index].title,
-                //             style: TextStyle(
-                //               fontSize: 15,
-                //               fontWeight: FontWeight.bold,
-                //               fontFamily: 'OpenSans',
-                //             ),
-                //           ),
-                //           Text(
-                //             DateFormat.yMMMd().format(transactions[index].date),
-                //             //tx.date.toString(),
-                //             style: TextStyle(
-                //               color: Colors.grey,
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //       // Column(
-                //       //   children: [
-                //       //     Text('Extra Column'),
-                //       //     Text('Extra New Line'),
-                //       //   ],
-                //       // ),
-                //       // Row(
-                //       //   children: [
-                //       //     Text('Row in Row'),
-                //       //   ],
-                //       // ),
-                //     ],
-                //   ),
-                // );
-              }),
-              itemCount: transactions.length,
+          : ListView(
+              children: [
+                ...transactions
+                    .map((tx) => TransactionItem(
+                          key: ValueKey(tx.id),
+                          transaction: tx,
+                          deleteTx: deleteTx,
+                        ))
+                    .toList(),
+              ],
               // children: transactions.map((tx) {
 
               // }).toList(),

@@ -52,7 +52,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   // String titleInput;
   // String amountInput;
 
@@ -72,6 +72,27 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   bool _showChart = false;
+
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) { }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
@@ -113,6 +134,25 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget _buildLandscapeContent() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Show Chart'),
+        Switch(
+          value: _showChart,
+          onChanged: ((val) {
+            setState(() {
+              _showChart = val;
+            });
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPotraitContent() {}
+
   // final titleControler = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -134,21 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
           //  mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Show Chart'),
-                  Switch(
-                    value: _showChart,
-                    onChanged: ((val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    }),
-                  ),
-                ],
-              ),
+            if (isLandscape) _buildLandscapeContent(),
             if (!isLandscape)
               Container(
                 height: (MediaQuery.of(context).size.height -
